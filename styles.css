@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333333;
+    min-height: 100vh;
+    position: relative;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    position: relative;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #8a6d3b, transparent);
+}
+
+h1, h2 {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    color: #8a6d3b;
+    position: relative;
+}
+
+h1 {
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding-bottom: 15px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background-color: #8a6d3b;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 50px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+@media (min-width: 992px) {
+    .charts-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.chart-container {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(138, 109, 59, 0.2);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.chart-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #8a6d3b, transparent);
+}
+
+/* Error message styling */
+.error {
+    color: #8a6d3b;
+    text-align: center;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Custom tooltip styling for Chart.js */
+.chartjs-tooltip {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid #8a6d3b !important;
+    color: #333333 !important;
+    font-family: 'Montserrat', sans-serif !important;
+}

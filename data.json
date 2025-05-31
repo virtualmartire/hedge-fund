@@ -1,0 +1,14 @@
+{
+  "quota": [
+    {
+      "nickname": "hummingbird",
+      "value": 90,
+      "color": "blue"
+    },
+    {
+      "nickname": "dynamite",
+      "value": 10,
+      "color": "red"
+    }
+  ]
+}
