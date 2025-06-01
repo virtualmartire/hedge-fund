@@ -11,6 +11,12 @@
 <body>
     <div class="container">
         <h1>Martire's Hedge Fund</h1>
+        <div id="fund-total" class="fund-total" style="display:none;">Total Fund: <span>$1,000,000</span></div>
+        <form id="login-form" class="login-form" autocomplete="off" style="display:none;">
+            <input type="password" id="password-input" placeholder="Enter password" required />
+            <button type="submit">Login</button>
+            <div id="login-error" class="login-error" style="display:none;">Incorrect password.</div>
+        </form>
         <div class="charts-grid">
             <div class="chart-container">
                 <h2>Allocation</h2>

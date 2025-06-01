@@ -1,7 +1,107 @@
-// Wait for the DOM to be fully loaded
+// --- LOGIN & FUND TOTAL LOGIC ---
+let loggedIn = false;
+async function backendLogin(input_password) {
+    try {
+        const res = await fetch('http://localhost:5001/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ password: input_password })
+        });
+        if (res.ok) {
+            loggedIn = true;
+            return true;
+        } else {
+            loggedIn = false;
+            return false;
+        }
+    } catch (err) {
+        loggedIn = false;
+        return false;
+    }
+}
+
+async function checkBackendLogin() {
+    try {
+        const res = await fetch('http://localhost:5001/check', {
+            credentials: 'include'
+        });
+        if (res.ok) {
+            const data = await res.json();
+            loggedIn = !!data.logged_in;
+        } else {
+            loggedIn = false;
+        }
+    } catch (err) {
+        loggedIn = false;
+    }
+    return loggedIn;
+}
+
+function showLoginForm(show) {
+    const form = document.getElementById('login-form');
+    if (form) form.style.display = show ? '' : 'none';
+}
+
+function showFundTotal(show) {
+    const fundDiv = document.getElementById('fund-total');
+    if (fundDiv) fundDiv.style.display = show ? '' : 'none';
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Login logic
+    const loginForm = document.getElementById('login-form');
+    const passwordInput = document.getElementById('password-input');
+    const loginError = document.getElementById('login-error');
+    const fundTotal = document.getElementById('fund-total');
+
+    async function updateLoginUI() {
+        await checkBackendLogin();
+        if (loggedIn) {
+            showLoginForm(false);
+            showFundTotal(true);
+        } else {
+            showLoginForm(true);
+            showFundTotal(false);
+        }
+    }
+
+    updateLoginUI();
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const ok = await backendLogin(passwordInput.value);
+            passwordInput.value = '';
+            if (ok) {
+                if (loginError) loginError.style.display = 'none';
+                updateLoginUI();
+            } else {
+                if (loginError) loginError.style.display = '';
+            }
+        });
+        passwordInput.addEventListener('input', function() {
+            if (loginError) loginError.style.display = 'none';
+        });
+    }
+
+    // Optionally allow logout with double-click on fund amount
+    if (fundTotal) {
+        fundTotal.addEventListener('dblclick', async function() {
+            await fetch('http://localhost:5001/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ password: '' }) // log out
+            });
+            loggedIn = false;
+            updateLoginUI();
+        });
+    }
+
+    // Continue with chart logic as before
     // Fetch the JSON data
-    fetch('data.json')
+    fetch('quota.json')
         .then(response => {
             // Check if the response is ok
             if (!response.ok) {
