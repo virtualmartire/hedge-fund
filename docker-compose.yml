@@ -1,24 +1,10 @@
 services:
-
-  backend:
-    build:
-      context: ./backend
+  hedgefund:
+    build: .
     ports:
       - "5001:5001"
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - PASSWORD=${PASSWORD}
     env_file:
-      - ./backend/.env.secrets
-    volumes:
-      - ./backend/server.py:/app/server.py:ro
-
-  frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "8080:80"
-    volumes:
-      - ./frontend/index.html:/usr/share/nginx/html/index.html:ro
-      - ./frontend/styles.css:/usr/share/nginx/html/styles.css:ro
-      - ./frontend/script.js:/usr/share/nginx/html/script.js:ro
-      - ./frontend/quota.json:/usr/share/nginx/html/quota.json:ro
-    depends_on:
-      - backend
+      - .env

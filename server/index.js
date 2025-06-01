@@ -1,0 +1,44 @@
+import express from 'express';
+import session from 'express-session';
+import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 5001;
+const PASSWORD = process.env.PASSWORD || 'test';
+const SECRET_KEY = process.env.SECRET_KEY || 'supersecret';
+
+app.use(cors({ origin: true, credentials: true }));
+app.use(express.json());
+app.use(session({
+  secret: SECRET_KEY,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
+}));
+
+app.post('/login', (req, res) => {
+  const { password } = req.body;
+  if (password === PASSWORD) {
+    req.session.logged_in = true;
+    return res.json({ success: true });
+  } else {
+    req.session.logged_in = false;
+    return res.status(401).json({ success: false, error: 'Incorrect password' });
+  }
+});
+
+app.get('/check', (req, res) => {
+  res.json({ logged_in: !!req.session.logged_in });
+});
+
+app.use(express.static('../client/dist'));
+
+app.get('*', (req, res) => {
+  res.sendFile('index.html', { root: '../client/dist' });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
