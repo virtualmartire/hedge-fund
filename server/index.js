@@ -33,6 +33,13 @@ app.get('/check', (req, res) => {
   res.json({ logged_in: !!req.session.logged_in });
 });
 
+app.post('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie('connect.sid');
+    res.json({ success: true });
+  });
+});
+
 app.use(express.static('../client/dist'));
 
 app.get('*', (req, res) => {

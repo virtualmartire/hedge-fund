@@ -2,7 +2,10 @@
   <div class="container">
     <h1>Martire's Hedge Fund</h1>
     <LoginSection v-if="!loggedIn" @login-success="onLoginSuccess" :logged-in="loggedIn" />
-    <FundTotal v-if="loggedIn" />
+    <div v-if="loggedIn">
+      <button @click="logout" style="float:right;margin-bottom:1rem;">Logout</button>
+      <FundTotal />
+    </div>
     <div class="charts-row">
       <div class="chart-container">
         <PieChart :quota="quota" />
@@ -34,10 +37,27 @@ async function fetchQuota() {
   }
 }
 
-onMounted(fetchQuota);
+async function checkSession() {
+  try {
+    const res = await axios.get('/check', { withCredentials: true });
+    loggedIn.value = !!res.data.logged_in;
+  } catch (e) {
+    loggedIn.value = false;
+  }
+}
 
-function onLoginSuccess() {
-  loggedIn.value = true;
+onMounted(() => {
+  fetchQuota();
+  checkSession();
+});
+
+async function onLoginSuccess() {
+  await checkSession();
+}
+
+async function logout() {
+  await axios.post('/logout', {}, { withCredentials: true });
+  loggedIn.value = false;
 }
 </script>
 
