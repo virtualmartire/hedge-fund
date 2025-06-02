@@ -1,9 +1,15 @@
 <template>
   <div class="container">
+    <UserIcon ref="userIcon" @close-dropdown="closeUserDropdown">
+      <template v-if="!loggedIn">
+        <LoginSection @login-success="onLoginSuccess" :logged-in="loggedIn" :onLoginComplete="closeUserDropdown" />
+      </template>
+      <template v-else>
+        <a href="#" @click.prevent="handleLogoutClick" class="stealth-logout">Logout</a>
+      </template>
+    </UserIcon>
     <h1>Martire's Hedge Fund</h1>
-    <LoginSection v-if="!loggedIn" @login-success="onLoginSuccess" :logged-in="loggedIn" />
     <div v-if="loggedIn">
-      <button @click="logout" style="float:right;margin-bottom:1rem;">Logout</button>
       <FundTotal />
     </div>
     <div class="charts-row">
@@ -24,6 +30,7 @@ import LoginSection from './components/LoginSection.vue';
 import PieChart from './components/PieChart.vue';
 import TimeSeriesChart from './components/TimeSeriesChart.vue';
 import FundTotal from './components/FundTotal.vue';
+import UserIcon from './components/UserIcon.vue';
 
 const loggedIn = ref(false);
 const quota = ref([]);
@@ -58,6 +65,17 @@ async function onLoginSuccess() {
 async function logout() {
   await axios.post('/logout', {}, { withCredentials: true });
   loggedIn.value = false;
+}
+
+function closeUserDropdown() {
+  if (userIcon.value && userIcon.value.closeDropdown) {
+    userIcon.value.closeDropdown();
+  }
+}
+
+function handleLogoutClick() {
+  // closeUserDropdown();
+  logout();
 }
 </script>
 
