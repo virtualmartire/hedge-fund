@@ -30,7 +30,7 @@ const quota = ref([]);
 
 async function fetchQuota() {
   try {
-    const res = await axios.get('/quota.json');
+    const res = await axios.get('/api/quota', { withCredentials: true });
     quota.value = res.data.quota || [];
   } catch (e) {
     quota.value = [];

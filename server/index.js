@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { getQuotaData } from './quota.js';
 dotenv.config();
 
 const app = express();
@@ -41,6 +42,17 @@ app.post('/logout', (req, res) => {
 });
 
 app.use(express.static('../client/dist'));
+
+// API endpoint to serve quota data from CSV
+app.get('/api/quota', (req, res) => {
+  try {
+    const quota = getQuotaData();
+    res.json({ quota });
+  } catch (err) {
+    console.error('Error in /api/quota:', err);
+    res.status(500).json({ error: 'Failed to load quota data', details: err.message });
+  }
+});
 
 app.get('*', (req, res) => {
   res.sendFile('index.html', { root: '../client/dist' });
