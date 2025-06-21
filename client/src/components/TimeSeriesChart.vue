@@ -16,6 +16,13 @@ function randomData(len, min, max) {
 }
 
 function renderChart() {
+  const chartColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-1').trim();
+
+  if (!chartColor) {
+    setTimeout(renderChart, 50);
+    return;
+  }
+
   if (chartInstance) chartInstance.destroy();
   const labels = Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`);
   chartInstance = new Chart(canvas.value, {
@@ -26,7 +33,7 @@ function renderChart() {
         {
           label: 'Fund',
           data: randomData(12, 90, 120),
-          borderColor: '#4b9cd3',
+          borderColor: chartColor,
           fill: false
         }
       ]
@@ -37,8 +44,7 @@ function renderChart() {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          display: true,
-          labels: { color: '#222', boxWidth: 16 }
+          display: false
         },
         tooltip: { enabled: false }
       }

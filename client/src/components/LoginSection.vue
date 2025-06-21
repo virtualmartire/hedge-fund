@@ -2,7 +2,7 @@
   <form @submit.prevent="login" class="stealth-login-form">
     <div v-if="!loggedIn">
       <input v-model="password" type="password" placeholder="Password" required />
-      <button type="submit">Login</button>
+      <StyledButton type="submit">Login</StyledButton>
       <div v-if="error" class="error">{{ error }}</div>
     </div>
   </form>
@@ -10,6 +10,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import StyledButton from './StyledButton.vue';
 import axios from 'axios';
 
 const props = defineProps({
@@ -40,6 +41,7 @@ async function login() {
 </script>
 
 <style scoped>
+
 .stealth-login-form {
   background: none;
   border: none;
@@ -52,23 +54,15 @@ async function login() {
   padding: 0.35rem 0.7rem;
   margin: 0 0 0.3rem 0;
   border-radius: 5px;
-  border: 1px solid #e2c785;
+  border: 1px solid var(--text-1);
   width: 100%;
-  background: #fafbfc;
+  background: var(--background-1);
   box-sizing: border-box;
 }
-.stealth-login-form button {
-  font-size: 0.95rem;
-  padding: 0.35rem 1.1rem;
-  border-radius: 5px;
-  background: #8a6d3b;
-  color: #fff;
-  border: none;
-  margin-top: 0.2rem;
-  cursor: pointer;
-}
 .error {
+  font-size: 0.9rem;
   color: #e74c3c;
   margin-top: 0.4rem;
 }
+
 </style>

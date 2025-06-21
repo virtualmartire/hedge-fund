@@ -1,25 +1,30 @@
 <template>
   <div class="container">
-    <UserIcon ref="userIcon" @close-dropdown="closeUserDropdown">
-      <template v-if="!loggedIn">
-        <LoginSection @login-success="onLoginSuccess" :logged-in="loggedIn" :onLoginComplete="closeUserDropdown" />
-      </template>
-      <template v-else>
-        <a href="#" @click.prevent="handleLogoutClick" class="stealth-logout">Logout</a>
-      </template>
-    </UserIcon>
-    <h1>Martire's Hedge Fund</h1>
-    <div v-if="loggedIn">
+
+    <Header>
+      <UserIcon ref="userIcon" @close-dropdown="closeUserDropdown">
+        <template v-if="!loggedIn">
+          <LoginSection @login-success="onLoginSuccess" :logged-in="loggedIn" :onLoginComplete="closeUserDropdown" />
+        </template>
+        <template v-else>
+          <StyledButton @click="handleLogoutClick">Logout</StyledButton>
+        </template>
+      </UserIcon>
+    </Header>
+
+    <div v-if="loggedIn" class="element-container">
       <FundTotal />
     </div>
+
     <div class="charts-row">
-      <div class="chart-container">
+      <div class="element-container chart-container">
         <PieChart :quota="quota" />
       </div>
-      <div class="chart-container timeseries-container">
+      <div class="element-container chart-container timeseries-container">
         <TimeSeriesChart />
       </div>
     </div>
+
   </div>
 </template>
 
@@ -31,6 +36,8 @@ import PieChart from './components/PieChart.vue';
 import TimeSeriesChart from './components/TimeSeriesChart.vue';
 import FundTotal from './components/FundTotal.vue';
 import UserIcon from './components/UserIcon.vue';
+import Header from './components/Header.vue';
+import StyledButton from './components/StyledButton.vue';
 
 const loggedIn = ref(false);
 const quota = ref([]);
@@ -81,22 +88,16 @@ function handleLogoutClick() {
 
 <style scoped>
 .container {
-    max-width: 1000px;
-    margin: 0 auto;
+    width: 90vw;
+    height: 90vh;
     padding: 40px 20px;
     position: relative;
-    background: #fff;
+    background: var(--background-1);
     border-radius: 14px;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.06);
+    color: var(--text-1);
+    box-sizing: border-box;
 }
-h1 {
-    margin-bottom: 40px;
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding-bottom: 15px;
-}
+
 .charts-row {
     display: flex;
     flex-wrap: wrap;
@@ -105,19 +106,21 @@ h1 {
     align-items: flex-start;
     margin-top: 2rem;
 }
-.chart-container {
+.element-container {
     flex: 1 1 350px;
     min-width: 320px;
-    max-width: 480px;
-    min-height: 420px;
-    background: #fafbfc;
+    background: var(--background-1);
     border-radius: 10px;
     padding: 1.5rem 1rem;
-    box-shadow: 0 1px 8px 0 rgba(0,0,0,0.04);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 12px 0 var(--shadow-1);
+}
+
+.chart-container {
+    min-height: 420px;
 }
 .timeseries-container {
     /* Ensures the canvas fills the container */
@@ -133,7 +136,7 @@ h1 {
         flex-direction: column;
         gap: 1.5rem;
     }
-    .chart-container {
+    .element-container {
         max-width: 100%;
     }
 }

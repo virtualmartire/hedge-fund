@@ -26,20 +26,4 @@ onMounted(fetchFundTotal);
 </script>
 
 <style scoped>
-.fund-total {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fffbe6;
-  color: #8a6d3b;
-  border: 2px solid #e2c785;
-  border-radius: 12px;
-  font-size: 1.4rem;
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  margin-bottom: 28px;
-  padding: 18px 0;
-  box-shadow: 0 2px 12px 0 rgba(138,109,59,0.06);
-  letter-spacing: 0.5px;
-}
 </style>

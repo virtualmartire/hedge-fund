@@ -1,6 +1,6 @@
 <template>
   <div class="user-icon-wrapper" ref="wrapper" tabindex="0">
-    <svg class="user-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8a6d3b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" @click="toggleDropdown">
+    <svg class="user-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" @click="toggleDropdown">
       <circle cx="12" cy="8" r="4" />
       <path d="M4 20c0-4 4-7 8-7s8 3 8 7" />
     </svg>
@@ -47,32 +47,30 @@ onUnmounted(() => {
 
 <style scoped>
 .user-icon-wrapper {
-  position: absolute;
-  top: 18px;
-  right: 22px;
+  position: relative;
   z-index: 100;
   cursor: pointer;
   outline: none;
 }
 .user-icon {
+  stroke: var(--text-1);
   transition: box-shadow 0.2s;
   border-radius: 50%;
-  background: #fffbe6;
-  box-shadow: 0 2px 8px 0 rgba(138,109,59,0.10);
+  background: var(--background-1);
+  box-shadow: 0 2px 8px 0 var(--shadow-1);
 }
 .user-icon-wrapper:focus .user-icon,
 .user-icon-wrapper:hover .user-icon {
-  box-shadow: 0 4px 18px 0 rgba(138,109,59,0.20);
+  box-shadow: 0 4px 18px 0 var(--shadow-1);
 }
 .dropdown {
   position: absolute;
   right: 0;
   top: 36px;
   min-width: 170px;
-  background: #fff;
-  border: 1px solid #e2c785;
+  background: var(--background-1);
   border-radius: 10px;
-  box-shadow: 0 2px 12px 0 rgba(138,109,59,0.10);
+  box-shadow: 0 2px 12px 0 var(--shadow-1);
   padding: 16px 20px 14px 20px;
   margin-top: 4px;
   z-index: 101;
