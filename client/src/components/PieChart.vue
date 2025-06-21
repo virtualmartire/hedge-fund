@@ -38,6 +38,8 @@ function renderChart() {
       plugins: {
         legend: {
           display: true,
+          position: 'top',
+          onClick: null,
           labels: { color: '#222', boxWidth: 16 }
         },
         tooltip: { enabled: false }
