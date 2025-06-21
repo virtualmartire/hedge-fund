@@ -6,14 +6,14 @@ import { getQuotaData } from './quota.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5001;
-const PASSWORD = process.env.PASSWORD || 'test';
-const SECRET_KEY = process.env.SECRET_KEY || 'supersecret';
+const PORT = process.env.PORT;
+const PASSWORD = process.env.PASSWORD;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(session({
-  secret: SECRET_KEY,
+  secret: SECRET_KEY,   // mandatory option for express-session
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }

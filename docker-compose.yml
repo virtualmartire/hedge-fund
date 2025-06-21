@@ -3,8 +3,5 @@ services:
     build: .
     ports:
       - "5001:5001"
-    environment:
-      - SECRET_KEY=${SECRET_KEY}
-      - PASSWORD=${PASSWORD}
     env_file:
       - .env
